@@ -7,7 +7,7 @@ const Login = () => {
   const { setUser } = useContext(UserContext);
   const formik = useFormik({
     initialValues: {
-      username: "",
+      username: '',
     },
     validationSchema: Yup.object({
       username: Yup.string()
@@ -15,7 +15,7 @@ const Login = () => {
         .required("*Name is required"),
     }),
     onSubmit: (values) => {
-      setUser({ username: values.username });
+      setUser({username: values.username});
       console.log(`Your name is: ${values.username}`);
     }
   });
