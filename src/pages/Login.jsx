@@ -2,9 +2,11 @@ import { useContext } from 'react';
 import { UserContext } from '../context/UserInfoContext';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const { setUser } = useContext(UserContext);
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -17,6 +19,7 @@ const Login = () => {
     onSubmit: (values) => {
       setUser({username: values.username});
       console.log(`Your name is: ${values.username}`);
+      navigate("/menu");
     }
   });
   return (
