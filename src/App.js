@@ -2,6 +2,7 @@ import './App.css';
 import Header from './components/Header';
 import Login from './pages/Login';
 import Menu from './pages/Menu';
+import Cart from './pages/Cart';
 import PageNotFound from './pages/PageNotFound';
 import { Routes, Route } from 'react-router-dom';
 
@@ -14,6 +15,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/menu" element={<Menu />} />
+            <Route path="/cart" element={<Cart />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </main>

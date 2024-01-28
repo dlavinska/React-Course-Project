@@ -25,7 +25,7 @@ const Menu = () => {
   }, []);
 
   return (
-    <div className='mx-auto max-w-3xl'>
+    <div>
       <ul className='divide-y divide-stone-200 px-2'>
         {menu.map((pizza) => (
           <MenuItem key={pizza.id} item={pizza} />
