@@ -1,33 +1,30 @@
-import { useEffect, useState } from 'react';
-import { PIZZA_API } from '../constants/constants';
+import { useEffect} from 'react';
 import MenuItem from '../components/MenuItem';
+import { useDispatch, useSelector } from 'react-redux';
+import { getMenuItems } from '../redux/slices/menuSlice';
+import Loader from '../components/Loader';
+import Error from '../components/Error';
+
 
 const Menu = () => {
-  const [menu, setMenu] = useState([]);
+  const dispatch = useDispatch();
+  const { isLoading, isError, menuItems } = useSelector((state) => state.menu);
   useEffect(() => {
-    const getMenu = async () => {
-      try {
-        const response = await fetch(`${PIZZA_API}/menu`);
+    dispatch(getMenuItems());
+  }, [dispatch]);
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch");
-        }
+  if (isLoading) {
+    return <Loader/>
+  }
 
-        const { data } = await response.json();
-
-        setMenu(data);
-      } catch (e) {
-        console.error(e.message);
-      }
-    };
-
-    getMenu();
-  }, []);
+  if (isError) {
+    return <Error error={isError} />
+  }
 
   return (
     <div>
       <ul className='divide-y divide-stone-200 px-2'>
-        {menu.map((pizza) => (
+        {!!menuItems && menuItems.map((pizza) => (
           <MenuItem key={pizza.id} item={pizza} />
         ))}
       </ul>
