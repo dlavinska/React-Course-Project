@@ -13,7 +13,7 @@ const Cart = () => {
   const dispatch = useDispatch();
   
   const handleOrder = () => {
-    console.log("Your order success");
+    navigate("/order/new");
   }
 
   const handleClearCart = () => {

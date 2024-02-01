@@ -1,9 +1,10 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteFromCart, decrementQty, incrementQty } from '../redux/slices/cartSlice';
+import { formatPrice } from "../formats/formats";
 
 const CartItem = ({ item }) => {
-    const { id, qty, name, unitPrice } = item;
+    const { id, qty, name, totalPrice } = item;
     const dispatch = useDispatch();
 
     const handleDecrementQty = () => {
@@ -24,7 +25,7 @@ const CartItem = ({ item }) => {
           {qty}&times; {name}
         </p>
         <div className="flex items-center justify-between sm:gap-6">
-          <p className="text-sm font-bold">{`€${unitPrice * qty}.00`}</p>
+          <p className="text-sm font-bold">{formatPrice(totalPrice)}</p>
           <div className="flex items-center gap-2 md:gap-3">
             <button onClick={handleDecrementQty} className="btn btn-round">
               -
@@ -34,10 +35,7 @@ const CartItem = ({ item }) => {
               +
             </button>
           </div>
-          <button
-            onClick={handleDeleteItem}
-            className="btn btn-small"
-          >
+          <button onClick={handleDeleteItem} className="btn btn-small">
             Delete
           </button>
         </div>

@@ -13,10 +13,12 @@ const cartSlice = createSlice({
 
       if (item) {
         item.qty += 1;
+        item.totalPrice = item.qty * item.unitPrice;
       } else {
         state.items.push({
           ...payload,
           qty: 1,
+          totalPrice: payload.unitPrice
         });
       }
     },
@@ -29,12 +31,14 @@ const cartSlice = createSlice({
       if (item.qty <= 1) {
         state.items = state.items.filter((item) => item.id !== payload);
       }
+      item.totalPrice = item.qty * item.unitPrice;
 
       item.qty -= 1;
     },
     incrementQty: (state, { payload }) => {
       const item = state.items.find((item) => item.id === payload);
       item.qty += 1;
+      item.totalPrice = item.qty * item.unitPrice;
     },
     clearCart: (state) => {
       state.items = [];

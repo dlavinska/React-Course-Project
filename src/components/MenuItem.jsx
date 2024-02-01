@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from '../redux/slices/cartSlice';
+import { formatPrice } from "../formats/formats";
 
 const MenuItem = ({ item }) => {
     const { name, unitPrice, ingredients, soldOut, imageUrl } = item;
@@ -23,15 +24,12 @@ const MenuItem = ({ item }) => {
         </p>
         <div className="mt-auto flex items-center justify-between">
           {!soldOut ? (
-            <p className="text-sm">{`€${unitPrice}.00`}</p>
+            <p className="text-sm">{formatPrice(unitPrice)}</p>
           ) : (
             <p className="text-sm uppercase text-stone-500">Sold out</p>
           )}
           {!soldOut && (
-            <button
-              onClick={handleAddToCart}
-              className="btn btn-small"
-            >
+            <button onClick={handleAddToCart} className="btn btn-small">
               Add to cart
             </button>
           )}
