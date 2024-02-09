@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Menu from './pages/Menu';
 import Cart from './pages/Cart';
 import CreateNewOrder from "./pages/CreateNewOrder";
+import Order from "./pages/Order";
 import PageNotFound from './pages/PageNotFound';
 import { Routes, Route } from 'react-router-dom';
 
@@ -17,7 +18,8 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/menu" element={<Menu />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/order/new" element={<CreateNewOrder/>} />
+            <Route path="/order/new" element={<CreateNewOrder />} />
+            <Route path="/order/:id" element={<Order/>}/>
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </main>

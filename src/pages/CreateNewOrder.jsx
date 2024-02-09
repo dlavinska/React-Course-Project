@@ -8,15 +8,20 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import { formatPrice } from '../formats/formats';
 import { clearCart } from "../redux/slices/cartSlice";
+import { addOrderInfo, postOrderItems } from "../redux/slices/orderSlice";
+import { useNavigate } from "react-router-dom";
+import Error from '../components/Error';
 
 const CreateNewOrder = () => {
   const { user } = useContext(UserContext);
   const cart = useSelector((state) => state.cart.items);
+  const { isError, isLoading } = useSelector((state) => state.order);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { handleSubmit, reset, control, watch } = useForm({
     defaultValues: {
-      name: user.username,
+      customer: user.username,
       phone: "",
       address: "",
       priority: false,
@@ -29,8 +34,42 @@ const CreateNewOrder = () => {
   const priorityPrice = isCheckedValue ? 8 : 0;
   const totalOrderPrice = totalCartPrice + priorityPrice;
 
+
+  if (isError) {
+    return <Error error={isError} />;
+  }
+
+  if (isLoading) {
+    return <h1>Loading...</h1>
+  }
+  
   const onSubmit = (data) => {
-    console.log({ ...data, totalOrderPrice: totalOrderPrice });
+    const cartInfo = cart.map((item) => (
+      {
+        pizzaId: item.id,
+        name: item.name,
+        quantity: item.qty,
+        unitPrice: item.unitPrice,
+        totalPrice: item.totalPrice    
+      }
+    ));
+
+    const order = {
+      ...data,
+      cart: cartInfo,
+      position: ""
+    };
+
+    dispatch(postOrderItems(order))
+      .then((response) => {
+        const data = response.payload;
+        if (data.status === "success") {
+          dispatch(addOrderInfo(data));
+          navigate(`/order/${data.data.id}`);
+        }
+      }
+    )
+
     reset();
     dispatch(clearCart());
   }
@@ -41,7 +80,7 @@ const CreateNewOrder = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
           <Controller
-            name="name"
+            name="customer"
             control={control}
             render={({ field, fieldState: { error } }) => (
               <Input

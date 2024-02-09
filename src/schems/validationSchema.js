@@ -2,7 +2,7 @@ import * as yup from "yup";
 const regPhone = /(?=.*\+[0-9]{3}\s?[0-9]{2}\s?[0-9]{3}\s?[0-9]{4,5}$)/;
 
 export const validationSchema = yup.object().shape({
-  name: yup
+  customer: yup
     .string()
     .required("*Name is required")
     .max(14, "Name must be 14 characters or less"),
