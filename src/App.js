@@ -1,12 +1,14 @@
 import './App.css';
+import { lazy, Suspense } from 'react';
 import Header from './components/Header';
-import Login from './pages/Login';
-import Menu from './pages/Menu';
-import Cart from './pages/Cart';
-import CreateNewOrder from "./pages/CreateNewOrder";
-import Order from "./pages/Order";
-import PageNotFound from './pages/PageNotFound';
+import Loader from './components/Loader';
 import { Routes, Route } from 'react-router-dom';
+const LoginLazy = lazy(() => import('./pages/Login'));
+const MenuLazy = lazy(() => import('./pages/Menu'));
+const CartLazy = lazy(() => import('./pages/Cart'));
+const CreateNewOrderLazy = lazy(() => import('./pages/CreateNewOrder'));
+const OrderLazy = lazy(() => import('./pages/Order'));
+const PageNotFoundLazy = lazy(() => import('./pages/PageNotFound'));
 
 function App() {
   return (
@@ -14,14 +16,16 @@ function App() {
       <Header />
       <div className="overflow-scroll">
         <main className="mx-auto max-w-3xl">
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/menu" element={<Menu />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/order/new" element={<CreateNewOrder />} />
-            <Route path="/order/:id" element={<Order/>}/>
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
+          <Suspense fallback={<Loader />}>
+            <Routes>
+              <Route path="/" element={<LoginLazy />} />
+              <Route path="/menu" element={<MenuLazy />} />
+              <Route path="/cart" element={<CartLazy />} />
+              <Route path="/order/new" element={<CreateNewOrderLazy />} />
+              <Route path="/order/:id" element={<OrderLazy />} />
+              <Route path="*" element={<PageNotFoundLazy />} />
+            </Routes>
+          </Suspense>
         </main>
       </div>
     </div>

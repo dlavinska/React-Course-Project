@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UserContext } from "../context/UserInfoContext";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { validationSchema } from "../schems/validationSchema";
 import Input from "../components/Input";
 import Button from "../components/Button";
@@ -79,59 +79,30 @@ const CreateNewOrder = () => {
       <h2 className="mb-8 text-xl font-semibold">Ready to order? Let's go!</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
-          <Controller
+          <Input
+            control={control}
+            type="text"
             name="customer"
-            control={control}
-            render={({ field, fieldState: { error } }) => (
-              <Input
-                type="text"
-                error={error?.message}
-                {...field}
-                label="First Name"
-              />
-            )}
+            label="First Name"
           />
         </div>
         <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
-          <Controller
+          <Input
+            control={control}
+            type="text"
             name="phone"
-            control={control}
-            render={({ field, fieldState: { error } }) => (
-              <Input
-                type="text"
-                error={error?.message}
-                {...field}
-                label="Phone Number"
-              />
-            )}
+            label="Phone Number"
           />
         </div>
         <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
-          <Controller
-            name="address"
-            control={control}
-            render={({ field, fieldState: { error } }) => (
-              <Input
-                type="text"
-                error={error?.message}
-                {...field}
-                label="Address"
-              />
-            )}
-          />
+          <Input control={control} type="text" name="address" label="Address" />
         </div>
         <div className="z-50 mb-12 flex items-center justify-center gap-5">
-          <Controller
-            name="priority"
+          <Input
             control={control}
-            render={({ field }) => (
-              <Input
-                {...field}
-                type="checkbox"
-                checked={field.value ?? false}
-                label="Want to give your order priority?"
-              />
-            )}
+            type="checkbox"
+            name="priority"
+            label="Want to give your order priority?"
           />
         </div>
         <div>
